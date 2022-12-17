@@ -13,10 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mvvm.data.file.ReadFile
 import com.example.mvvm.data.file.ReadFileImpl
 import com.example.mvvm.data.model.inbox
+import com.example.mvvm.data.model.inboxSorting
 import com.example.mvvm.ui.base.ViewModelFactory
 import com.example.mvvm.ui.main.adapter.MainAdapter
 import com.example.mvvm.ui.main.event.ChatListClickListener
 import com.example.mvvm.ui.main.viewmodel.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.inbox.*
 
 class InboxFragment: Fragment(), ChatListClickListener {
@@ -37,18 +39,16 @@ class InboxFragment: Fragment(), ChatListClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        getActivity()?.setTitle("Inbox")
         setupUI()
-
-        //setupObservers()
         setupViewModel()
         setupObserversChat()
-
     }
 
     private fun setupUI() {
 
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        adapter = MainAdapter(arrayListOf(), listener , requireActivity())
+        adapter = MainAdapter(arrayListOf(), listener)
         recyclerView.addItemDecoration(
             DividerItemDecoration(
                 recyclerView.context,
@@ -74,17 +74,15 @@ class InboxFragment: Fragment(), ChatListClickListener {
         })
     }
 
-    private fun retrieveChat(chats: List<inbox>) {
+    private fun retrieveChat(chats: List<inboxSorting>) {
         adapter.apply {
             addChats(chats)
             notifyDataSetChanged()
         }
     }
 
-    override fun onChatListItemClick(view: View, user: inbox) {
-        Toast.makeText(requireContext(), user.senderName + "", Toast.LENGTH_SHORT).show()
-        //val fragment: Fragment = ChatFragment()
-        val fragment = newInstance(user.senderId)
+    override fun onChatListItemClick(view: View, user: inboxSorting) {
+        val fragment = newInstance(user.senderId, user.senderName)
         val fragmentManager = requireActivity().supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
 
@@ -95,9 +93,9 @@ class InboxFragment: Fragment(), ChatListClickListener {
 
     companion object {
         @JvmStatic
-        fun newInstance(senderId: Int) = ChatFragment().apply {
+        fun newInstance(senderId: Int, senderName: String) = ChatFragment().apply {
             arguments = Bundle().apply {
-
+                putString("SENDER_NAME", senderName)
                 putInt("SENDER_ID", senderId)
             }
         }

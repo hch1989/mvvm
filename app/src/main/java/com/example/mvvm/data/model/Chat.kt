@@ -26,3 +26,9 @@ data class messages (
     val time: String
         )
 
+data class inboxSorting (
+    val senderId: Int,
+    val senderName: String,
+    val time: String
+)
+

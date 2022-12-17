@@ -37,6 +37,8 @@ class ChatFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
         setupUI()
         setupViewModel()
         setupObserversMessage()
@@ -46,13 +48,17 @@ class ChatFragment: Fragment() {
         super.onAttach(context)
         arguments?.getInt("SENDER_ID")?.let {
             senderId = it
+
+        }
+        arguments?.getString("SENDER_NAME")?.let {
+            getActivity()?.setTitle(it)
         }
     }
 
     private fun setupUI() {
 
         chatRecyclerView.layoutManager = LinearLayoutManager(activity)
-        adapter = ChatAdapter(arrayListOf() , requireActivity())
+        adapter = ChatAdapter(arrayListOf(), 0)
         chatRecyclerView.addItemDecoration(
             DividerItemDecoration(
                 chatRecyclerView.context,
@@ -70,21 +76,26 @@ class ChatFragment: Fragment() {
     }
 
     private fun setupObserversMessage() {
+        var getUserId = 0
+
+        viewModel.getUserId(requireContext()).observe(viewLifecycleOwner, Observer {
+            it.data?.let { userId ->
+                getUserId = userId
+            }
+        })
 
         viewModel.getMessage(requireContext(), senderId).observe(viewLifecycleOwner, Observer {
             chatRecyclerView.visibility = View.VISIBLE
             chatProgressBar.visibility = View.GONE
-            Log.e("gg2", it.message.toString())
-
             it.data?.let { message ->
-                Log.e("message_", message.toString())
-                retrieveMessage(message) }
+
+                retrieveMessage(message, getUserId) }
         })
     }
 
-    private fun retrieveMessage(messages: List<messages>) {
+    private fun retrieveMessage(messages: List<messages>, userId: Int?) {
         adapter.apply {
-            addMessages(messages)
+            addMessages(messages, userId)
             notifyDataSetChanged()
         }
     }

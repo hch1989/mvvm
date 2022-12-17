@@ -11,22 +11,19 @@ import com.example.mvvm.data.model.inbox
 import com.example.mvvm.data.model.messages
 import kotlinx.android.synthetic.main.item_layout_chat.view.*
 
-class ChatAdapter(private val messages: ArrayList<messages>, val activity: FragmentActivity) : RecyclerView.Adapter<ChatAdapter.DataViewHolder>() {
+class ChatAdapter(private val messages: ArrayList<messages>, private var userId: Int) : RecyclerView.Adapter<ChatAdapter.DataViewHolder>() {
 
     class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(messages: messages) {
+        fun bind(messages: messages, userId: Int) {
             itemView.apply {
-                Log.e("messages.message",messages.message)
                 textViewMessage.text = messages.message
                 textViewTime.text = messages.time
-
-                textViewMessage.gravity = Gravity.RIGHT
-                textViewTime.gravity = Gravity.RIGHT
-
-//                Glide.with(imageViewAvatar.context)
-//                    .load(user.avatar)
-//                    .into(imageViewAvatar)
+                Log.e("userId1",userId.toString())
+                if(messages.senderId == userId) {
+                    textViewMessage.gravity = Gravity.RIGHT
+                    textViewTime.gravity = Gravity.RIGHT
+                }
             }
         }
     }
@@ -38,16 +35,18 @@ class ChatAdapter(private val messages: ArrayList<messages>, val activity: Fragm
     override fun getItemCount(): Int = messages.size
 
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
-        //val chat = getItem(position)
-
-        holder.bind(messages[position])
+        holder.bind(messages[position], userId)
     }
 
-    fun addMessages(messages: List<messages>) {
+    fun addMessages(messages: List<messages>, userId: Int?) {
+        Log.e("userId2",userId.toString())
+        if (userId != null) {
+
+            this.userId = userId
+        }
         this.messages.apply {
             clear()
             addAll(messages)
         }
-
     }
 }
