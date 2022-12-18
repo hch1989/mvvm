@@ -3,14 +3,11 @@ package com.example.mvvm.ui.main.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mvvm.data.model.inbox
 import com.example.mvvm.data.model.inboxSorting
+import com.example.mvvm.extension.DateTimeFormatter
 import com.example.mvvm.ui.main.event.ChatListClickListener
 import kotlinx.android.synthetic.main.item_layout.view.*
-import kotlinx.android.synthetic.main.item_layout_chat.view.*
-
 
 class MainAdapter(private val chats: ArrayList<inboxSorting>, val chatListClickListener: ChatListClickListener,
                   ) : RecyclerView.Adapter<MainAdapter.DataViewHolder>() {
@@ -20,7 +17,7 @@ class MainAdapter(private val chats: ArrayList<inboxSorting>, val chatListClickL
         fun bind(chat: inboxSorting) {
             itemView.apply {
                 textViewUserName.text = chat.senderName
-
+                textViewLatestTime.text = chat.time.DateTimeFormatter()
             }
         }
     }

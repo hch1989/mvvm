@@ -2,7 +2,6 @@ package com.example.mvvm.ui.main.view
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,14 +11,12 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mvvm.R
-import com.example.mvvm.data.file.ReadFile
 import com.example.mvvm.data.file.ReadFileImpl
 import com.example.mvvm.data.model.messages
 import com.example.mvvm.ui.base.ViewModelFactory
 import com.example.mvvm.ui.main.adapter.ChatAdapter
 import com.example.mvvm.ui.main.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.chat.*
-
 
 class ChatFragment: Fragment() {
     private var senderId: Int = 0
@@ -56,7 +53,6 @@ class ChatFragment: Fragment() {
     }
 
     private fun setupUI() {
-
         chatRecyclerView.layoutManager = LinearLayoutManager(activity)
         adapter = ChatAdapter(arrayListOf(), 0)
         chatRecyclerView.addItemDecoration(

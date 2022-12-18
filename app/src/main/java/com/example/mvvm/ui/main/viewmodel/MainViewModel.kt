@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.example.mvvm.data.repository.MainRepository
-import com.example.mvvm.data.repository.MainRepositoryImpl
 import com.example.mvvm.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
