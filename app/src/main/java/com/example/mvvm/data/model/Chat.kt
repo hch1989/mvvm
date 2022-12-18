@@ -15,7 +15,7 @@ data class userDetail (
         )
 
 data class inbox (
-    val senderId: Int,
+    var senderId: Int,
     val senderName: String,
     val messages: List<messages>
         )

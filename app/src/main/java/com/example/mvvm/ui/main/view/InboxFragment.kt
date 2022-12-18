@@ -16,6 +16,7 @@ import com.example.mvvm.ui.main.adapter.MainAdapter
 import com.example.mvvm.ui.main.event.ChatListClickListener
 import com.example.mvvm.ui.main.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.inbox.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 class InboxFragment: Fragment(), ChatListClickListener {
 
@@ -61,8 +62,11 @@ class InboxFragment: Fragment(), ChatListClickListener {
         ).get(MainViewModel::class.java)
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private fun setupObserversChat() {
 
+        viewModel.getChat(requireContext())
+        viewModel.getChat(requireContext()).value?.data?.let { retrieveChat(it) }
             viewModel.getChat(requireContext()).observe(viewLifecycleOwner, Observer {
             recyclerView.visibility = View.VISIBLE
             progressBar.visibility = View.GONE

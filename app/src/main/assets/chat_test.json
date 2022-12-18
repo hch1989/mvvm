@@ -1,0 +1,21 @@
+{
+  "response": {
+    "userDetail": {
+      "userId": "1000",
+      "userName": "Steve Williams"
+    },
+    "inbox": [
+      {
+        "senderId": "1005",
+        "senderName": "Hamza Tate",
+        "messages": [
+          {
+            "senderId": "1005",
+            "message": "Good night! Sweet Dreams",
+            "time": "2022-11-08T10:45:00.000Z"
+          }
+        ]
+      }
+    ]
+  }
+}

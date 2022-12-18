@@ -10,3 +10,8 @@ data class Resource<out T>(val status: Status, val data: T?, val message: String
         fun <T> loading(data: T?): Resource<T> = Resource(status = Status.LOADING, data = data, message = null)
     }
 }
+//
+//sealed class Result<out T> {
+//    data class Error<T>(val message: String): Result<T>()
+//    data class Success<T>(val data: T): Result<T>()
+//}
